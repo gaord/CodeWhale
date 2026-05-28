@@ -1114,13 +1114,14 @@ async fn delete_automation(
 async fn run_automation(
     State(state): State<RuntimeApiState>,
     Path(id): Path<String>,
-) -> Result<Json<AutomationRunRecord>, ApiError> {
+) -> Result<Json<AutomationRecord>, ApiError> {
     let manager = state.automations.lock().await;
-    let run = manager
+    manager
         .run_now(&id, &state.task_manager)
         .await
         .map_err(map_automation_err)?;
-    Ok(Json(run))
+    let automation = manager.get_automation(&id).map_err(map_automation_err)?;
+    Ok(Json(automation))
 }
 
 async fn pause_automation(
@@ -2296,7 +2297,7 @@ mod tests {
             .error_for_status()?
             .json()
             .await?;
-        assert_eq!(run_now["automation_id"], automation_id);
+        assert_eq!(run_now["id"], automation_id);
 
         let paused: serde_json::Value = client
             .post(format!(

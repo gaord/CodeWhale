@@ -316,15 +316,53 @@ impl AutomationManager {
     }
 
     pub fn default_location() -> Result<Self> {
-        Self::open(default_automations_dir())
+        let automations_dir = default_automations_dir();
+        let runs_dir = automations_dir.parent()
+            .map(|p| p.join("runs"))
+            .unwrap_or_else(|| automations_dir.join("../runs"));
+        fs::create_dir_all(&automations_dir)
+            .with_context(|| format!("Failed to create {}", automations_dir.display()))?;
+        fs::create_dir_all(&runs_dir)
+            .with_context(|| format!("Failed to create {}", runs_dir.display()))?;
+        Ok(Self {
+            automations_dir,
+            runs_dir,
+        })
     }
 
     fn automation_path(&self, id: &str) -> PathBuf {
-        self.automations_dir.join(format!("{id}.json"))
+        let resolved = self.resolve_automation_id(id);
+        self.automations_dir.join(format!("{resolved}.json"))
+    }
+
+    fn resolve_automation_id(&self, id: &str) -> String {
+        if self.automations_dir.join(format!("{id}.json")).exists() {
+            return id.to_string();
+        }
+        if id.len() < 36
+            && let Ok(entries) = fs::read_dir(&self.automations_dir)
+        {
+            let mut matches: Vec<String> = entries
+                .filter_map(|e| e.ok())
+                .filter(|e| {
+                    e.path()
+                        .file_stem()
+                        .is_some_and(|stem| stem.to_string_lossy().starts_with(id))
+                })
+                .filter_map(|e| {
+                    e.path().file_stem().map(|s| s.to_string_lossy().to_string())
+                })
+                .collect();
+            if matches.len() == 1 {
+                return matches.remove(0);
+            }
+        }
+        id.to_string()
     }
 
     fn runs_dir_for(&self, automation_id: &str) -> PathBuf {
-        self.runs_dir.join(automation_id)
+        let resolved = self.resolve_automation_id(automation_id);
+        self.runs_dir.join(resolved)
     }
 
     fn run_path(&self, automation_id: &str, run_id: &str) -> PathBuf {
