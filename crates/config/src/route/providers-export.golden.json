@@ -1513,7 +1513,7 @@
       "label": "Zhipu AI / Z.ai",
       "endpoint": "https://api.z.ai/api/coding/paas/v4",
       "wire": "chat-completions",
-      "defaultModel": "GLM-5.3",
+      "defaultModel": "GLM-5.4",
       "envVars": [
         "ZAI_API_KEY",
         "Z_AI_API_KEY",
@@ -1537,12 +1537,15 @@
         },
         {
           "id": "GLM-5.3",
-          "canonical": "zhipuai/glm-5.3",
-          "default": true
+          "canonical": "zhipuai/glm-5.3"
         },
         {
           "id": "GLM-5.3-Flash",
           "canonical": "zhipuai/glm-5.3-flash"
+        },
+        {
+          "id": "GLM-5.4",
+          "default": true
         },
         {
           "id": "glm-5.1",

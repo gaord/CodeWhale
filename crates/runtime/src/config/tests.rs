@@ -6187,11 +6187,12 @@ fn model_completion_scenario_2() {
     {
         let models = model_completion_names_for_provider(ProviderKind::Zai);
 
-        // GLM-5.3 is the default and must be first; GLM-5.2 and GLM-5.1 stay
-        // available, and GLM-5-Turbo is the faster sub-agent sibling.
+        // GLM-5.4 is the default and must be first; GLM-5.3, GLM-5.2 and
+        // GLM-5.1 stay available, and GLM-5-Turbo is the faster sub-agent sibling.
         assert_eq!(models.first().copied(), Some(DEFAULT_ZAI_MODEL));
-        assert_eq!(DEFAULT_ZAI_MODEL, ZAI_GLM_5_3_MODEL);
+        assert_eq!(DEFAULT_ZAI_MODEL, "GLM-5.4");
         assert!(models.contains(&ZAI_GLM_5_1_MODEL));
+        assert!(models.contains(&ZAI_GLM_5_3_MODEL));
         assert!(models.contains(&ZAI_GLM_5_3_FLASH_MODEL));
         assert!(models.contains(&ZAI_GLM_5_TURBO_MODEL));
         // GLM-5.2 is still offered alongside the others but no longer takes the
@@ -6250,7 +6251,10 @@ fn normalize_model_name_for_zai_canonicalizes_current_glm_models() {
         ("glm-5-1", ZAI_GLM_5_1_MODEL),
         ("glm-5.2", ZAI_GLM_5_2_MODEL),
         ("zai-glm-5-2", ZAI_GLM_5_2_MODEL),
-        ("glm-5.3", DEFAULT_ZAI_MODEL),
+        ("glm-5.4", DEFAULT_ZAI_MODEL),
+        ("glm-5-4", DEFAULT_ZAI_MODEL),
+        ("zai-glm-5-4", DEFAULT_ZAI_MODEL),
+        ("glm-5.3", ZAI_GLM_5_3_MODEL),
         ("glm-5-3", ZAI_GLM_5_3_MODEL),
         ("zai-glm-5-3", ZAI_GLM_5_3_MODEL),
         ("glm-5.3-flash", ZAI_GLM_5_3_FLASH_MODEL),

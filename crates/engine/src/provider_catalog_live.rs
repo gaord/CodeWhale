@@ -1457,6 +1457,14 @@ fn persist_scope(
             fingerprint,
             durable_catalog,
         );
+        // An authenticated refresh is deliberately kept out of the durable
+        // merge (see `begin_refresh_inner`). When the prior file loads empty
+        // — a legacy v2 observation is treated as a cache miss — the merge
+        // can only produce an empty cache. Writing that back would erase
+        // scopes this process never touched, so leave the file alone.
+        if !durable_catalog && durable_cache.entries.is_empty() {
+            return Ok(());
+        }
         write_bounded_cache(
             &path,
             durable_cache,
@@ -2685,6 +2693,55 @@ api_key = "fixture-public-listing-key"
         assert_eq!(entry.offerings.len(), 1);
         assert_eq!(entry.offerings[0].wire_model_id, "new");
         assert!(matches!(entry.status, CatalogStatus::Failed { .. }));
+    }
+
+    #[test]
+    fn authenticated_refresh_leaves_a_legacy_cache_file_intact() {
+        // Authenticated refreshes are kept out of the durable merge, and a
+        // legacy v2 file loads as an empty cache ("unproven v2 observations").
+        // Writing that empty merge back would erase every scope in the file,
+        // which is how `codewhale models --update` used to wipe a user's
+        // cached rosters.
+        let _env = lock_test_env();
+        let _live = crate::provider_lake::lock_live_snapshot();
+        let home = tempfile::tempdir().expect("home");
+        let _home = EnvVarGuard::set("CODEWHALE_HOME", home.path());
+        reset_cache_for_test();
+
+        let base_url = "https://open.bigmodel.cn/api/coding/paas/v4";
+        let fingerprint = base_url_fingerprint(base_url);
+        let mut legacy = ProviderCatalogCache::new();
+        let mut legacy_delta = delta("zai", &fingerprint, &["glm-5.3", "glm-5.3-flash"]);
+        legacy_delta.provider = storage_provider(ProviderKind::Zai, "zai");
+        legacy.record_success(legacy_delta, DEFAULT_PROVIDER_CATALOG_TTL_SECS);
+        let path = cache_path().expect("test cache path");
+        if let Some(parent) = path.parent() {
+            std::fs::create_dir_all(parent).expect("cache dir");
+        }
+        atomic_write_json(
+            &path,
+            &PersistedProviderCatalogs {
+                schema_version: 2,
+                cache: legacy,
+            },
+        )
+        .expect("write legacy cache");
+        let before = std::fs::read(&path).expect("legacy bytes");
+
+        assert_eq!(
+            record_success_for_identity(
+                ProviderKind::Zai,
+                delta("zai", &fingerprint, &["glm-5.3", "glm-5.4"]),
+                false,
+            ),
+            CatalogStatus::Fresh
+        );
+        assert_eq!(
+            std::fs::read(&path).expect("cache bytes"),
+            before,
+            "an authenticated refresh must leave a legacy cache file intact"
+        );
+        reset_cache_for_test();
     }
 
     #[test]

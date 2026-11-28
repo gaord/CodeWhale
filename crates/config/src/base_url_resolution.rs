@@ -261,7 +261,11 @@ pub fn provider_base_url_is_official(provider: ProviderKind, base_url: &str) -> 
             normalized.as_str(),
             "https://api.z.ai/api/coding/paas/v4"
                 | "https://api.z.ai/api/paas/v4"
+                | "https://api.z.ai/api/anthropic"
                 | "https://open.bigmodel.cn/api/paas/v4"
+                | "https://open.bigmodel.cn/api/coding/paas/v4"
+                | "https://open.bigmodel.cn/api/anthropic"
+                | "https://open.bigmodel.cn/api/v1"
         ),
         ProviderKind::XiaomiMimo => {
             xiaomi_mimo_base_url_uses_token_plan(base_url)
@@ -348,7 +352,9 @@ pub fn provider_published_pricing_base_urls(provider: ProviderKind) -> Vec<&'sta
                     "https://api.z.ai/api/paas/v4",
                     "https://api.z.ai/api/anthropic",
                     "https://open.bigmodel.cn/api/paas/v4",
+                    "https://open.bigmodel.cn/api/coding/paas/v4",
                     "https://open.bigmodel.cn/api/anthropic",
+                    "https://open.bigmodel.cn/api/v1",
                 ],
                 ProviderKind::Moonshot => &[
                     "https://api.moonshot.ai",

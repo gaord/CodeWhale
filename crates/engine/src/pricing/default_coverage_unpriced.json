@@ -405,7 +405,7 @@
       ],
       [
         "zai",
-        "GLM-5.3",
+        "GLM-5.4",
         "https://api.z.ai/api/coding/paas/v4",
         "chat_completions",
         "subscription"

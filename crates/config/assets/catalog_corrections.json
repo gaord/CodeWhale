@@ -62,6 +62,11 @@
       "pricing_withheld": "Codewhale's default Z.ai route is the GLM Coding Plan (DEFAULT_ZAI_BASE_URL, api.z.ai/api/coding/paas/v4), which bills credit multipliers, not USD per token; see the seed's pending_release_metadata."
     },
     {
+      "provider": "zai",
+      "id": "GLM-5.4",
+      "pricing_withheld": "GLM-5.4 ships on the GLM Coding Plan, which bills credit multipliers, not USD per token; its pay-as-you-go Model API is not open yet (pending security assessment), so no USD row exists to stand behind; see the seed's pending_release_metadata."
+    },
+    {
       "provider": "novita",
       "id": "deepseek/deepseek-v4-pro",
       "max_output": 384000,
@@ -2339,6 +2344,12 @@
         "supports_tools": true,
         "supports_reasoning": true,
         "provider": "openrouter"
+      },
+      {
+        "id": "GLM-5.4",
+        "supports_tools": true,
+        "supports_reasoning": true,
+        "provider": "zai"
       },
       {
         "id": "GLM-5.3",
@@ -5899,6 +5910,7 @@
       ],
       "zai": [
         "$DEFAULT_ZAI_MODEL",
+        "$ZAI_GLM_5_3_MODEL",
         "$ZAI_GLM_5_3_FLASH_MODEL",
         "$ZAI_GLM_5_2_MODEL",
         "$ZAI_GLM_5_1_MODEL",

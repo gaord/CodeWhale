@@ -2606,15 +2606,16 @@ mod tests {
         let cost_saving = inventory_auto_router_system_prompt(&inventory, true);
 
         assert!(!balanced.contains("Cost-saving mode is ON"));
+        // GLM-5.4 is the default and has no published fast sibling yet, so the
+        // cost-saving policy must say there is nothing to downgrade to.
         assert!(
-            cost_saving.contains(
-                "For the active provider `zai`, `GLM-5.3-Flash` is the fast tier and `GLM-5.3` is the strong tier"
-            ),
-            "cost-saving classifier policy must name the provider-safe pair: {cost_saving}"
+            cost_saving.contains("no known runnable fast sibling"),
+            "cost-saving classifier policy must disclose the missing sibling: {cost_saving}"
         );
         assert!(
-            cost_saving.contains("Keep the selected model paired with provider `zai`"),
-            "cost-saving policy must preserve provider/model validation: {cost_saving}"
+            cost_saving
+                .contains("Do not invent a model or cross-provider downgrade solely to save cost"),
+            "cost-saving policy must refuse invented downgrades: {cost_saving}"
         );
     }
 
@@ -2942,7 +2943,9 @@ mod tests {
             );
             assert_eq!(route.source, AutoRouteSource::Heuristic);
             let receipt = route.receipt.expect("Auto route receipt");
-            assert_eq!(receipt.tier, AutoRouteTier::Strong);
+            // GLM-5.4 is the declared default but Z.ai has published no 5.4
+            // fast sibling yet, so the route is a single-tier Only route.
+            assert_eq!(receipt.tier, AutoRouteTier::Only);
             assert_eq!(receipt.scope, AutoRouteScope::ResolvedProvider);
             assert_eq!(receipt.data_path, AutoRouteDataPath::LocalHeuristic);
             assert_eq!(
@@ -2956,7 +2959,8 @@ mod tests {
             );
             assert_eq!(
                 receipt.pair.fast.as_deref(),
-                Some(codewhale_config::catalog::reviewed::constants::ZAI_GLM_5_3_FLASH_MODEL)
+                None,
+                "GLM-5.4 must not borrow another model's fast sibling"
             );
         }
     }
@@ -3104,7 +3108,9 @@ mod tests {
                 codewhale_config::descriptors::defaults::DEFAULT_ZAI_MODEL
             );
             let receipt = route.receipt.expect("scoped receipt");
-            assert_eq!(receipt.tier, AutoRouteTier::Strong);
+            // GLM-5.4 is the declared default; Z.ai publishes no 5.4 fast
+            // sibling yet, so the scoped route is a single-tier Only route.
+            assert_eq!(receipt.tier, AutoRouteTier::Only);
             assert_eq!(receipt.scope, AutoRouteScope::ResolvedProvider);
             assert_eq!(
                 receipt.reason,
@@ -3294,10 +3300,14 @@ mod tests {
         let _env_lock = crate::test_support::lock_test_env();
         let _deepseek = crate::test_support::EnvVarGuard::remove("DEEPSEEK_API_KEY");
         let _zai = crate::test_support::EnvVarGuard::set("ZAI_API_KEY", "zai-key");
+        // GLM-5.3 is the current documented strong/fast pair. The GLM-5.4
+        // default is covered below: it has no published sibling yet.
         let balanced = {
             let __cw_config_init_19_0 = Some("zai".to_string());
             let mut __cw_config_init_19_value: Config = Default::default();
             __cw_config_init_19_value.provider = __cw_config_init_19_0;
+            __cw_config_init_19_value.default_text_model =
+                Some(codewhale_config::catalog::reviewed::constants::ZAI_GLM_5_3_MODEL.to_string());
             __cw_config_init_19_value
         };
         let cost_saving = {
@@ -3333,7 +3343,7 @@ mod tests {
         assert_eq!(balanced_route.provider.provider, ProviderKind::Zai);
         assert_eq!(
             balanced_route.model,
-            codewhale_config::descriptors::defaults::DEFAULT_ZAI_MODEL
+            codewhale_config::catalog::reviewed::constants::ZAI_GLM_5_3_MODEL
         );
         assert_eq!(cost_saving_route.provider.provider, ProviderKind::Zai);
         assert_eq!(
@@ -3359,6 +3369,45 @@ mod tests {
             Some((
                 AutoRouteTier::Fast,
                 AutoRouteReason::LocalFallback(AutoRouteHeuristicReason::CostSavingPolicy),
+            ))
+        );
+
+        // The GLM-5.4 default has no published fast sibling: cost-saving stays
+        // on the declared default instead of inventing a cross-model
+        // downgrade, and the receipt says so.
+        let cost_saving_default = {
+            let __cw_config_init_23_0 = Some(codewhale_runtime::config::AutoConfig {
+                cost_saving: Some(true),
+                cross_provider: None,
+                router: None,
+            });
+            let mut __cw_config_init_23_value: Config = Default::default();
+            __cw_config_init_23_value.provider = Some("zai".to_string());
+            __cw_config_init_23_value.auto = __cw_config_init_23_0;
+            __cw_config_init_23_value
+        };
+        let default_route = resolve_auto_route_with_inventory(
+            &cost_saving_default,
+            "Please implement a binary search",
+            "",
+            "auto",
+            "auto",
+        )
+        .await
+        .expect("cost-saving default route should resolve");
+        assert_eq!(default_route.provider.provider, ProviderKind::Zai);
+        assert_eq!(
+            default_route.model,
+            codewhale_config::descriptors::defaults::DEFAULT_ZAI_MODEL
+        );
+        assert_eq!(
+            default_route
+                .receipt
+                .as_ref()
+                .map(|receipt| (receipt.tier, receipt.reason)),
+            Some((
+                AutoRouteTier::Only,
+                AutoRouteReason::LocalFallback(AutoRouteHeuristicReason::NoFastSibling),
             ))
         );
     }

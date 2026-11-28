@@ -36,7 +36,7 @@ role = "NOT a competing source of truth. Preferred metadata is the live Models.d
 source = "Rows are projected unedited from Models.dev onto the fields models_dev.rs reads; provider headers, id mapping, defaults and canonical joins come from scripts/catalog/models_dev_seed.toml."
 corrections = "Deliberate holds (withheld prices, clamped limits) are not in this file. They live in crates/config/assets/catalog_corrections.json and apply to this seed and to live refresh alike."
 default_rows = "Each provider's `default: true` wire id equals that provider's built-in DEFAULT_*_MODEL so RouteResolver::new() and the descriptor stay in agreement when offline."
-pending_release_metadata = "GLM-5.3 is live on the Z.ai Coding Plan (docs.z.ai/devpack/overview and docs.z.ai/devpack/latest-model, recorded 2026-08-13) and is the default direct Z.ai model (DEFAULT_ZAI_MODEL); explicit GLM-5.2 selections keep their own id. First-party wire id is GLM-5.3; OpenRouter mirror is z-ai/glm-5.3. Capability/limit/dialect values still inherit from GLM-5.2 until Z.ai publishes distinct 5.3 numbers. Pricing stays absent: Coding Plan publishes credit multipliers, not a USD PAYG row we can stand behind. Z.ai may auto-route GLM-5.2/GLM-5.1 requests to GLM-5.3 on their side; Codewhale still sends the selected picker id. Do not send a [1m] suffix. Scope stays first-party Z.ai plus the OpenRouter mirror; add third-party gateway rows only against that gateway's own published roster."
+pending_release_metadata = "GLM-5.4 is live on the Z.ai / BigModel GLM Coding Plan for all plan tiers (docs.z.ai/guides/llm/glm-5.4 and docs.bigmodel.cn/cn/guide/models/glm-5.4, recorded 2026-11-27); first-party wire id is GLM-5.4 and Models.dev does not list it yet (checked 2026-11-27), so it ships as a curated row. Vision input is new in this generation: the docs list video/image/text/file input, so attachment and modalities carry image, video and pdf. Limits are the documented 1M context and 128K (131072) maximum output. GLM-5.4 is the default direct Z.ai model (DEFAULT_ZAI_MODEL); explicit GLM-5.3/GLM-5.2/GLM-5.1 selections keep their own ids. Pricing stays absent for GLM-5.4 and GLM-5.3: the Coding Plan publishes credit multipliers, not a USD PAYG row we can stand behind, and the pay-as-you-go Model API is not open for GLM-5.4 yet (pending security assessment). GLM-5.4 thinking details are not documented yet; its reasoning_options mirror GLM-5.3 until Z.ai publishes distinct 5.4 effort numbers. Codewhale still sends the selected picker id; do not send a [1m] suffix. Scope stays first-party Z.ai plus the OpenRouter mirror; add third-party gateway rows only against that gateway's own published roster."
 
 # Canonical entries retain the upstream lab/model identities; provider wire
 # ids and configured model selections stay in their own provider rows.
@@ -78,6 +78,7 @@ models = [
   "GLM-5.2",
   "GLM-5.3",
   "GLM-5.3-Flash",
+  { id = "GLM-5.4", curated = true },
   "glm-5.1",
   "GLM-5-Turbo",
 ]
@@ -521,3 +522,25 @@ release_date = "2026-10-17"
 last_updated = "2026-10-17"
 modalities = { "input" = ["text"], "output" = ["text"] }
 limit = { "context" = 1000000, "output" = 384000 }
+
+[[curated]]
+provider = "zai"
+id = "GLM-5.4"
+reason = "GLM-5.4 is live on the Z.ai / BigModel GLM Coding Plan for all plan tiers (docs.z.ai/guides/llm/glm-5.4 and docs.bigmodel.cn/cn/guide/models/glm-5.4, recorded 2026-11-27); the Models.dev zai provider row does not list it yet (checked 2026-11-27), so it ships as a curated row. Models.dev does carry a canonical `zhipuai/glm-5.4` row (first seen 2026-11-23) whose facts match this row exactly: 1M context, 131072 maximum output, text/image/video/pdf input, attachment, reasoning, and open_weights false. First-party wire id is GLM-5.4; no OpenRouter mirror row exists yet. The pay-as-you-go Model API is not open for GLM-5.4 yet (pending security assessment), and the Coding Plan bills credit multipliers, so no USD cost row is asserted here."
+
+[curated.row]
+name = "GLM-5.4"
+description = "Multimodal GLM flagship model for coding, agents, and complex project delivery"
+family = "glm"
+release_date = "2026-11-23"
+last_updated = "2026-11-23"
+attachment = true
+reasoning = true
+reasoning_options = [{ "type" = "effort", "values" = ["low", "high", "max"] }]
+interleaved = { "field" = "reasoning_content" }
+tool_call = true
+structured_output = true
+temperature = true
+open_weights = false
+modalities = { "input" = ["text", "image", "video", "pdf"], "output" = ["text"] }
+limit = { "context" = 1000000, "output" = 131072 }

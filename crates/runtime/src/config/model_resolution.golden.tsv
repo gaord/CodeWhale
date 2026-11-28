@@ -1495,39 +1495,47 @@ xiaomi-mimo	xiaomi-mimo-v2.6-pro	alias-key	mimo-v2.6-pro	mimo-v2.6-pro	mimo-v2.6
 xiaomi-mimo	xiaomi-mimo/mimo-v2.6-flash	variant-provider-prefix	xiaomi-mimo/mimo-v2.6-flash	xiaomi-mimo/mimo-v2.6-flash	xiaomi-mimo/mimo-v2.6-flash	xiaomi-mimo/mimo-v2.6-flash	xiaomi-mimo/mimo-v2.6-flash	xiaomi-mimo/mimo-v2.6-flash	-	xiaomi-mimo/mimo-v2.6-flash	chat	-	route_canonical
 xiaomi-mimo	xiaomi-mimo/mimo-v2.6-pro	variant-provider-prefix	xiaomi-mimo/mimo-v2.6-pro	xiaomi-mimo/mimo-v2.6-pro	xiaomi-mimo/mimo-v2.6-pro	xiaomi-mimo/mimo-v2.6-pro	xiaomi-mimo/mimo-v2.6-pro	xiaomi-mimo/mimo-v2.6-pro	-	xiaomi-mimo/mimo-v2.6-pro	chat	-	route_canonical
 zai	"  GLM-5-Turbo  "	variant-whitespace	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	zhipuai/glm-5-turbo	GLM-5-Turbo	chat	200000	route_canonical
-zai	"  GLM-5.3  "	variant-whitespace	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	zhipuai/glm-5.3	GLM-5.3	chat	1000000	route_canonical
+zai	"  GLM-5.3  "	carried	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	zhipuai/glm-5.3	GLM-5.3	chat	1000000	route_canonical
+zai	"  GLM-5.4  "	variant-whitespace	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	-	GLM-5.4	chat	1000000	route_canonical
 zai	GLM-5-TURBO	variant-uppercase	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	zhipuai/glm-5-turbo	GLM-5-Turbo	chat	200000	route_canonical
 zai	GLM-5-Turbo	alias-target+offering	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	zhipuai/glm-5-turbo	GLM-5-Turbo	chat	200000	route_canonical
 zai	GLM-5.1	alias-target	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	zhipuai/glm-5.1	glm-5.1	chat	200000	route_canonical,route_wire
 zai	GLM-5.2	alias-target+offering	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	zhipuai/glm-5.2	GLM-5.2	chat	1000000	route_canonical
-zai	GLM-5.3	alias-target+default+offering+variant-uppercase	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	zhipuai/glm-5.3	GLM-5.3	chat	1000000	route_canonical
+zai	GLM-5.3	alias-target+offering	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	zhipuai/glm-5.3	GLM-5.3	chat	1000000	route_canonical
 zai	GLM-5.3-Flash	alias-target+offering	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	zhipuai/glm-5.3-flash	GLM-5.3-Flash	chat	1000000	route_canonical
-zai	auto	sentinel-auto	auto	auto	auto	auto	auto	auto	zhipuai/glm-5.3	GLM-5.3	chat	1000000	route_canonical,route_wire
+zai	GLM-5.4	alias-target+default+offering+variant-uppercase	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	-	GLM-5.4	chat	1000000	route_canonical
+zai	auto	sentinel-auto	auto	auto	auto	auto	auto	auto	-	GLM-5.4	chat	1000000	route_canonical,route_wire
 zai	deepseek-v4-pro	foreign-deepseek	deepseek-v4-pro	deepseek-v4-pro	deepseek-v4-pro	deepseek-v4-pro	deepseek-v4-pro	deepseek-v4-pro	-!foreign-model	-!foreign-model	-!foreign-model	-!foreign-model	route_canonical,route_wire
 zai	glm-5-1	alias-key	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	zhipuai/glm-5.1	glm-5.1	chat	200000	route_canonical,route_wire
 zai	glm-5-2	alias-key	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	zhipuai/glm-5.2	GLM-5.2	chat	1000000	route_canonical
 zai	glm-5-3	alias-key	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	zhipuai/glm-5.3	GLM-5.3	chat	1000000	route_canonical
 zai	glm-5-3-flash	alias-key	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	zhipuai/glm-5.3-flash	GLM-5.3-Flash	chat	1000000	route_canonical
+zai	glm-5-4	alias-key	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	-	GLM-5.4	chat	1000000	route_canonical
 zai	glm-5-turbo	alias-key	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	zhipuai/glm-5-turbo	GLM-5-Turbo	chat	200000	route_canonical
 zai	glm-5.1	alias-key+offering	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	zhipuai/glm-5.1	glm-5.1	chat	200000	route_canonical,route_wire
 zai	glm-5.2	alias-key	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	zhipuai/glm-5.2	GLM-5.2	chat	1000000	route_canonical
 zai	glm-5.3	alias-key	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	zhipuai/glm-5.3	GLM-5.3	chat	1000000	route_canonical
 zai	glm-5.3-flash	alias-key	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	zhipuai/glm-5.3-flash	GLM-5.3-Flash	chat	1000000	route_canonical
+zai	glm-5.4	alias-key	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	-	GLM-5.4	chat	1000000	route_canonical
 zai	glm-5turbo	alias-key	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	zhipuai/glm-5-turbo	GLM-5-Turbo	chat	200000	route_canonical
 zai	models/GLM-5-Turbo	variant-models-prefix	models/GLM-5-Turbo	models/GLM-5-Turbo	models/GLM-5-Turbo	models/GLM-5-Turbo	models/GLM-5-Turbo	models/GLM-5-Turbo	-	models/GLM-5-Turbo	chat	-	route_canonical
-zai	models/GLM-5.3	variant-models-prefix	models/GLM-5.3	models/GLM-5.3	models/GLM-5.3	models/GLM-5.3	models/GLM-5.3	models/GLM-5.3	-	models/GLM-5.3	chat	-	route_canonical
+zai	models/GLM-5.3	carried	models/GLM-5.3	models/GLM-5.3	models/GLM-5.3	models/GLM-5.3	models/GLM-5.3	models/GLM-5.3	-	models/GLM-5.3	chat	-	route_canonical
+zai	models/GLM-5.4	variant-models-prefix	models/GLM-5.4	models/GLM-5.4	models/GLM-5.4	models/GLM-5.4	models/GLM-5.4	models/GLM-5.4	-	models/GLM-5.4	chat	-	route_canonical
 zai	totally-unknown-model-x	unknown	totally-unknown-model-x	totally-unknown-model-x	totally-unknown-model-x	totally-unknown-model-x	totally-unknown-model-x	totally-unknown-model-x	-	totally-unknown-model-x	chat	-	route_canonical
 zai	zai-glm-5-1	alias-key	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	zhipuai/glm-5.1	glm-5.1	chat	200000	route_canonical,route_wire
 zai	zai-glm-5-2	alias-key	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	zhipuai/glm-5.2	GLM-5.2	chat	1000000	route_canonical
 zai	zai-glm-5-3	alias-key	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	zhipuai/glm-5.3	GLM-5.3	chat	1000000	route_canonical
 zai	zai-glm-5-3-flash	alias-key	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	zhipuai/glm-5.3-flash	GLM-5.3-Flash	chat	1000000	route_canonical
+zai	zai-glm-5-4	alias-key	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	-	GLM-5.4	chat	1000000	route_canonical
 zai	zai-glm-5-turbo	alias-key	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	GLM-5-Turbo	zhipuai/glm-5-turbo	GLM-5-Turbo	chat	200000	route_canonical
 zai	zai-glm-5.1	alias-key	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	GLM-5.1	zhipuai/glm-5.1	glm-5.1	chat	200000	route_canonical,route_wire
 zai	zai-glm-5.2	alias-key	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	GLM-5.2	zhipuai/glm-5.2	GLM-5.2	chat	1000000	route_canonical
 zai	zai-glm-5.3	alias-key	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	GLM-5.3	zhipuai/glm-5.3	GLM-5.3	chat	1000000	route_canonical
 zai	zai-glm-5.3-flash	alias-key	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	GLM-5.3-Flash	zhipuai/glm-5.3-flash	GLM-5.3-Flash	chat	1000000	route_canonical
+zai	zai-glm-5.4	alias-key	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	GLM-5.4	-	GLM-5.4	chat	1000000	route_canonical
 zai	zai/GLM-5-Turbo	variant-provider-prefix	zai/GLM-5-Turbo	zai/GLM-5-Turbo	zai/GLM-5-Turbo	zai/GLM-5-Turbo	zai/GLM-5-Turbo	zai/GLM-5-Turbo	-	zai/GLM-5-Turbo	chat	-	route_canonical
-zai	zai/GLM-5.3	variant-provider-prefix	zai/GLM-5.3	zai/GLM-5.3	zai/GLM-5.3	zai/GLM-5.3	zai/GLM-5.3	zai/GLM-5.3	-	zai/GLM-5.3	chat	-	route_canonical
+zai	zai/GLM-5.3	carried	zai/GLM-5.3	zai/GLM-5.3	zai/GLM-5.3	zai/GLM-5.3	zai/GLM-5.3	zai/GLM-5.3	-	zai/GLM-5.3	chat	-	route_canonical
+zai	zai/GLM-5.4	variant-provider-prefix	zai/GLM-5.4	zai/GLM-5.4	zai/GLM-5.4	zai/GLM-5.4	zai/GLM-5.4	zai/GLM-5.4	-	zai/GLM-5.4	chat	-	route_canonical
 zenmux	"  deepseek/deepseek-v4.1-flash  "	variant-whitespace	deepseek/deepseek-v4.1-flash	deepseek/deepseek-v4.1-flash	deepseek/deepseek-v4.1-flash	deepseek/deepseek-v4.1-flash	deepseek/deepseek-v4.1-flash	deepseek/deepseek-v4.1-flash	-	deepseek/deepseek-v4.1-flash	chat	-	route_canonical
 zenmux	DEEPSEEK/DEEPSEEK-V4.1-FLASH	variant-uppercase	DEEPSEEK/DEEPSEEK-V4.1-FLASH	DEEPSEEK/DEEPSEEK-V4.1-FLASH	DEEPSEEK/DEEPSEEK-V4.1-FLASH	DEEPSEEK/DEEPSEEK-V4.1-FLASH	DEEPSEEK/DEEPSEEK-V4.1-FLASH	DEEPSEEK/DEEPSEEK-V4.1-FLASH	-	DEEPSEEK/DEEPSEEK-V4.1-FLASH	chat	-	route_canonical
 zenmux	auto	sentinel-auto	auto	auto	auto	auto	auto	auto	-	deepseek/deepseek-v4.1-flash	chat	-	route_canonical,route_wire

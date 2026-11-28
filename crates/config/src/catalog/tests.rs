@@ -1092,8 +1092,8 @@ fn bundled_asset_yields_real_chat_offerings_for_key_models() {
         "GLM-5.2 is no longer the Z.ai default"
     );
 
-    // GLM-5.3 is the Z.ai default (matching DEFAULT_ZAI_MODEL); its limits
-    // still inherit from glm-5.2 until Z.ai publishes distinct 5.3 numbers.
+    // GLM-5.3 is no longer the default (GLM-5.4 took over); its limits
+    // still match the 1M/128K family shape.
     let glm53 = find(&rows, "zai", "GLM-5.3");
     assert_eq!(
         glm53.limit.as_ref().and_then(|l| l.context),
@@ -1104,8 +1104,32 @@ fn bundled_asset_yields_real_chat_offerings_for_key_models() {
         glm.limit.as_ref().and_then(|l| l.output)
     );
     assert!(
-        glm53.default_for_provider,
-        "GLM-5.3 must be the Z.ai default"
+        !glm53.default_for_provider,
+        "GLM-5.3 is no longer the Z.ai default"
+    );
+
+    // GLM-5.4 is the Z.ai default (matching DEFAULT_ZAI_MODEL). Vision input
+    // is new in this generation: docs list video/image/text/file input.
+    let glm54 = find(&rows, "zai", "GLM-5.4");
+    assert_eq!(
+        glm54.limit.as_ref().and_then(|l| l.context),
+        Some(1_000_000)
+    );
+    assert_eq!(glm54.limit.as_ref().and_then(|l| l.output), Some(131_072));
+    assert!(
+        glm54.default_for_provider,
+        "GLM-5.4 must be the Z.ai default"
+    );
+    assert!(
+        glm54
+            .modalities
+            .as_ref()
+            .is_some_and(|m| m.input.contains(&"image".to_string())),
+        "GLM-5.4 must carry vision (image) input"
+    );
+    assert!(
+        glm54.cost.is_none(),
+        "GLM-5.4 has no USD PAYG row: Coding Plan credit multipliers only"
     );
 
     let kimi_k27 = find(&rows, "moonshot", "kimi-k2.7-code");

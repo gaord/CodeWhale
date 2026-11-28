@@ -773,13 +773,15 @@ base_url = "https://api.deepseek.com/beta"
 # base_url = "https://api.z.ai/api/coding/paas/v4"
 # # General API endpoint, if you are not using the Coding Plan:
 # # base_url = "https://api.z.ai/api/paas/v4"
-# model = "GLM-5.3"                             # default; GLM-5.3-Flash is the fast sibling, GLM-5.2 the previous default, GLM-5.1 the smaller model, GLM-5-Turbo the 5.2 fast sibling
-# # GLM-5.3 is live on the Z.ai Coding Plan (2026-08-13). Its catalog metadata
-# # (limits, reasoning options) is inherited from GLM-5.2 until Z.ai publishes
-# # distinct 5.3 numbers, and it carries no price. GLM-5.3-Flash (2026-08-26)
-# # is the 1M multimodal picker row (`model = "GLM-5.3-Flash"`). An explicit
-# # model = "GLM-5.2" keeps sending GLM-5.2; only the default moved. Accounts
-# # not provisioned for 5.3 can still see a 429 with entitlement code 1311.
+# model = "GLM-5.4"                             # default; GLM-5.3 the previous default, GLM-5.3-Flash the 1M multimodal sibling, GLM-5.2 the smaller model, GLM-5-Turbo the 5.2 fast sibling
+# # GLM-5.4 is live on the Z.ai / BigModel Coding Plan for all tiers (2026-11)
+# # with new vision input (image, video, PDF), a documented 1M context and 128K
+# # (131072) maximum output. Its reasoning-effort options mirror GLM-5.3 until
+# # Z.ai publishes distinct 5.4 numbers, and it carries no price: the
+# # pay-as-you-go Model API is not open for it yet (pending security
+# # assessment). GLM-5.3-Flash (2026-08-26) is the 1M multimodal picker row
+# # (`model = "GLM-5.3-Flash"`). An explicit model = "GLM-5.3" keeps sending
+# # GLM-5.3; only the default moved.
 
 # StepFun / StepFlash direct OpenAI-compatible endpoint (https://platform.stepfun.ai)
 [providers.stepfun]

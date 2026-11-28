@@ -3662,6 +3662,34 @@ mod tests {
     }
 
     #[test]
+    fn glm_5_4_has_no_hardcoded_price() {
+        // GLM-5.4 ships on the GLM Coding Plan (credit multipliers) and its
+        // pay-as-you-go Model API is not open yet (pending security
+        // assessment), so no USD rate exists to stand behind. Every price
+        // surface must report *unknown*, never a number and never $0. If Z.ai
+        // publishes rates, delete this test and add the real row.
+        for model in ["glm-5.4", "GLM-5.4", "z-ai/glm-5.4"] {
+            assert!(
+                pricing_for_model_at(model, Utc::now()).is_none(),
+                "{model} must have no price row until Z.ai publishes one"
+            );
+            assert!(!has_pricing_for_model(model), "{model} must be unpriced");
+            assert!(
+                calculate_turn_cost_estimate_from_usage(
+                    model,
+                    &Usage {
+                        input_tokens: 1_000_000,
+                        output_tokens: 500_000,
+                        ..Default::default()
+                    },
+                )
+                .is_none(),
+                "{model} must not accrue an invented cost estimate"
+            );
+        }
+    }
+
+    #[test]
     fn cache_write_tokens_increase_anthropic_cost_estimate() {
         let with_write = Usage {
             input_tokens: 12_048,
